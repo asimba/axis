@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="src/archive.cc" open="0" top="0" tabpos="0">
+		<Cursor position="24052" topLine="552" />
+	</File>
+	<File name="src/archive.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="27" />
+	</File>
+	<File name="src/axismain.cc" open="0" top="0" tabpos="1">
+		<Cursor position="5979" topLine="300" />
+	</File>
+	<File name="src/axisum.cc" open="0" top="0" tabpos="0">
+		<Cursor position="3023" topLine="85" />
+	</File>
+	<File name="src/axisum.h" open="0" top="0" tabpos="0">
+		<Cursor position="463" topLine="0" />
+	</File>
+	<File name="src/bnode.cc" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="141" />
+	</File>
+	<File name="src/crypt.cc" open="0" top="0" tabpos="0">
+		<Cursor position="3973" topLine="149" />
+	</File>
+	<File name="src/etc.cc" open="0" top="0" tabpos="2">
+		<Cursor position="1658" topLine="37" />
+	</File>
+	<File name="src/etc.h" open="0" top="0" tabpos="0">
+		<Cursor position="402" topLine="0" />
+	</File>
+	<File name="src/filters.cc" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="152" />
+	</File>
+	<File name="src/fnode.cc" open="0" top="0" tabpos="0">
+		<Cursor position="7317" topLine="0" />
+	</File>
+	<File name="src/fnode.h" open="0" top="0" tabpos="0">
+		<Cursor position="1609" topLine="34" />
+	</File>
+	<File name="src/ftree.cc" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="228" />
+	</File>
+	<File name="src/getpasswd.cc" open="0" top="0" tabpos="0">
+		<Cursor position="1307" topLine="10" />
+	</File>
+	<File name="src/hash.cc" open="0" top="0" tabpos="0">
+		<Cursor position="1543" topLine="39" />
+	</File>
+	<File name="src/hash.h" open="0" top="0" tabpos="0">
+		<Cursor position="664" topLine="0" />
+	</File>
+	<File name="src/mdirs.cc" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="40" />
+	</File>
+	<File name="src/random.cc" open="0" top="0" tabpos="0">
+		<Cursor position="2586" topLine="61" />
+	</File>
+	<File name="src/random.h" open="0" top="0" tabpos="0">
+		<Cursor position="2234" topLine="63" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="axis" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/axis" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-DHAVE_HASH_TBL=1" />
+				</Compiler>
+				<Linker>
+					<Add library="pthread" />
+					<Add library="rt" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/axis" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-march=i686" />
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-fstack-protector-all -Wno-unused-result" />
+					<Add option="-DHAVE_HASH_TBL=1" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static -s" />
+					<Add library="pthread" />
+					<Add library="rt" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cd src;./buildinc" />
+					<Add after="rm ./axis.depend" />
+					<Add after="rm ./genhash.depend" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="src/archive.cc" />
+		<Unit filename="src/archive.h" />
+		<Unit filename="src/axismain.cc" />
+		<Unit filename="src/axisum.cc" />
+		<Unit filename="src/axisum.h" />
+		<Unit filename="src/bnode.cc" />
+		<Unit filename="src/bnode.h" />
+		<Unit filename="src/buffers.cc" />
+		<Unit filename="src/buffers.h" />
+		<Unit filename="src/canonicalize.cc" />
+		<Unit filename="src/canonicalize.h" />
+		<Unit filename="src/convert.cc" />
+		<Unit filename="src/convert.h" />
+		<Unit filename="src/crypt.cc" />
+		<Unit filename="src/crypt.h" />
+		<Unit filename="src/ecc.cc" />
+		<Unit filename="src/ecc.h" />
+		<Unit filename="src/etc.cc" />
+		<Unit filename="src/etc.h" />
+		<Unit filename="src/filters.cc" />
+		<Unit filename="src/filters.h" />
+		<Unit filename="src/fnode.cc" />
+		<Unit filename="src/fnode.h" />
+		<Unit filename="src/ftree.cc" />
+		<Unit filename="src/ftree.h" />
+		<Unit filename="src/getpasswd.cc" />
+		<Unit filename="src/getpasswd.h" />
+		<Unit filename="src/globfunction.cc" />
+		<Unit filename="src/globfunction.h" />
+		<Unit filename="src/hash.cc" />
+		<Unit filename="src/hash.h" />
+		<Unit filename="src/hashtbl.h" />
+		<Unit filename="src/lzss.cc" />
+		<Unit filename="src/lzss.h" />
+		<Unit filename="src/mdirs.cc" />
+		<Unit filename="src/mdirs.h" />
+		<Unit filename="src/nvoc.cc" />
+		<Unit filename="src/nvoc.h" />
+		<Unit filename="src/permutation.cc" />
+		<Unit filename="src/permutation.h" />
+		<Unit filename="src/random.cc" />
+		<Unit filename="src/random.h" />
+		<Unit filename="src/rc32.cc" />
+		<Unit filename="src/rc32.h" />
+		<Unit filename="src/signature.cc" />
+		<Unit filename="src/signature.h" />
+		<Unit filename="src/timebits.cc" />
+		<Unit filename="src/timebits.h" />
+		<Unit filename="src/vars.cc" />
+		<Unit filename="src/vars.h" />
+		<Unit filename="src/version.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

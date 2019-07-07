@@ -1,0 +1,6 @@
+#!/bin/bash
+source build.inc
+VERSION_STRING=`cat version.inc|sed 's/^.*=//;s/\"//g'`
+BUILD_NUMBER=$(($BUILD_NUMBER+1))
+echo BUILD_NUMBER=$BUILD_NUMBER > ./build.inc
+echo "#define VERSION \""$VERSION_STRING \(build  $BUILD_NUMBER `date +'%Y-%m-%d'`\)"\"" > ./version.h

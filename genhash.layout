@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="src/genhash.cc" open="0" top="0" tabpos="0">
+		<Cursor position="137" topLine="0" />
+	</File>
+	<File name="src/hash.cc" open="0" top="0" tabpos="0">
+		<Cursor position="2709" topLine="76" />
+	</File>
+</CodeBlocks_layout_file>
