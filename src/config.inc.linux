@@ -2,11 +2,12 @@ PROGRAM = axis
 
 CC = g++
 
-ARCH = i686
+ARCH = x86-64
+TUNE = generic
 
 BUILD_STRING=LINUX
 
-CFLAGS_T = -Wall -march=$(ARCH) -mtune=$(ARCH) -m32 -O2 -fstack-protector-all -Wno-unused-result -static -s
+CFLAGS_T = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -Wno-unused-result -static -s
 
 ifdef HAVE_HASH_TBL
   CFLAGS = $(CFLAGS_T) -DHAVE_HASH_TBL=1
@@ -15,6 +16,6 @@ else
 endif
 
 INCLUDES =  -I.
-LDFLAGS = -Wall -march=$(ARCH) -mtune=$(ARCH) -m32 -O2 -fstack-protector-all -static -s
+LDFLAGS = -Wall -march=$(ARCH) -mtune=$(TUNE) -O2 -fstack-protector-all -static -s
 LFLAGS = -lpthread -lrt
 EXEEXT =

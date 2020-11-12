@@ -1,8 +1,8 @@
 #!/bin/bash
 
-find . -name \* -type f | sort | \
+find . -name \* -not -path "*/.git/*" -type f | sort | \
 while read f_name
 do
   sha1sum -b "$f_name" >> ./sha1sums
 done
-./bin/axis -u"./"|grep -v axissums|grep -v sha1sums>./axissums
+./bin/axis -u"./"|grep -v "axissums\|sha1sums\|\.git">./axissums

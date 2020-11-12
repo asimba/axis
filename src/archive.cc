@@ -42,7 +42,11 @@ void list_print(const struct list_record *v){
 
 void list_summary_print(const struct list_summary_record *v){
   if(v!=NULL){
+#ifndef _WIN32
     fprintf(stdout,"Summary:\n  dirs : %u\n  files: %u\n  size : %" PRIu64 "\n",v->dirs,v->files,v->size);
+#else
+    fprintf(stdout,"Summary:\n  dirs : %u\n  files: %u\n  size : %llu\n",v->dirs,v->files,(uint64_t)v->size);
+#endif
   };
 }
 

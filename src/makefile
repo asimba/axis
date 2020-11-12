@@ -1,11 +1,9 @@
 include build.inc
 include version.inc
 
-GCC_MINGW32_I686_W64_PREFIX = i686-w64-mingw32
-GCC_MINGW32_I586_PREFIX = i586-mingw32msvc
+GCC_MINGW32_W64_PREFIX = x86_64-w64-mingw32
 GCC_TEST:=$(shell g++ --version 2>&1| head -1 | grep -G ".*\..\.")
-GCC_MINGW32_I686_W64_TEST:=$(shell $(GCC_MINGW32_I686_W64_PREFIX)-g++ --version 2>&1| head -1 | grep -G ".*\.")
-GCC_MINGW32_I586_TEST:=$(shell $(GCC_MINGW32_I586_PREFIX)-g++ --version 2>&1| head -1 | grep -G ".*\.")
+GCC_MINGW32_W64_TEST:=$(shell $(GCC_MINGW32_W64_PREFIX)-g++ --version 2>&1| head -1 | grep -G ".*\.")
 BUILD_NEW:=$(shell expr $(BUILD_NUMBER) + 1)
 
 all:
@@ -17,10 +15,8 @@ all:
 	@if test -n "$(GCC_TEST)" ;\
 	then make -s -f makefile.mk CONFIG_BASE=config.inc.linux ;\
 	fi
-	@if test -n "$(GCC_MINGW32_I686_W64_TEST)" ;\
-	then make -s -f makefile.mk TARGET=$(GCC_MINGW32_I686_W64_PREFIX) CONFIG_BASE=config.inc.win32 ;\
-	elif test -n "$(GCC_MINGW32_I586_TEST)" ;\
-	then make -s -f makefile.mk TARGET=$(GCC_MINGW32_I586_PREFIX) CONFIG_BASE=config.inc.win32 ;\
+	@if test -n "$(GCC_MINGW32_W64_TEST)" ;\
+	then make -s -f makefile.mk TARGET=$(GCC_MINGW32_W64_PREFIX) CONFIG_BASE=config.inc.win32 ;\
 	fi
 
 clean:
