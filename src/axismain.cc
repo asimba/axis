@@ -45,7 +45,7 @@ static struct option const long_options[]=
 void usage(int status){
   if(status) fprintf(stderr, "Try `%s --help' for more information.\n", program_name);
   else{
-    fprintf(stdout,"\nAxis (XS). This program provides simple protection of user data.\n\
+    fprintf(stdout,"\nAxis (eXtra Simple - XS). This program provides simple cryptographic protection of user data.\n\
 \nUsage  : %s <OPTIONS>\nExamples:\
 \n     axis --encrypt -i ./ --password=abcdef > encrypted.xs\
 \n     axis --encrypt -p abcdef --input=./source.in --output=./encrypted.xs\
@@ -81,8 +81,6 @@ Options:\n\
   -u[NAME], --checksum[=NAME]    calculate Axis (160-bit) checksums - ONLY ONE\n\
                                  FILENAME or PATH\n\
   -p STRING, --password=STRING   max size of the STRING: 255 characters\n\
-                                 (or 127 characters in a language other than\n\
-                                 English)\n\
                                  min size of the STRING:  6  bytes \n\
                                  (required if MODE is NOT \"check\" or \"repair\";\n\
                                  if it is not set - it will be requested)\n\
