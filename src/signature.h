@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-int axis_sign(int fildes, bool check);
+int axis_sign(FILE *fildes, bool check);
 
 #endif

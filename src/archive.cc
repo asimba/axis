@@ -42,11 +42,7 @@ void list_print(const struct list_record *v){
 
 void list_summary_print(const struct list_summary_record *v){
   if(v!=NULL){
-#ifndef _WIN32
     fprintf(stdout,"Summary:\n  dirs : %u\n  files: %u\n  size : %" PRIu64 "\n",v->dirs,v->files,v->size);
-#else
-    fprintf(stdout,"Summary:\n  dirs : %u\n  files: %u\n  size : %llu\n",v->dirs,v->files,(uint64_t)v->size);
-#endif
   };
 }
 
@@ -71,6 +67,7 @@ archiver::archiver(){ //конструктор класса
   else errcode=0x00000001;
   errcode=flt.errcode;
   if(pack.lzbuf==NULL) errcode=0x00000001;
+  pack.set_filters(&flt);
 }
 
 archiver::~archiver(){ //деструктор класса
@@ -139,7 +136,7 @@ void archiver::set_base(const char *name){ //функция задания ба�
   };
 }
 
-void archiver::read_header(int filedsc){
+void archiver::read_header(FILE *filedsc){
   unsigned char clenght[4];
   char *content=NULL;
   uint32_t rw_lenght=0;
@@ -162,7 +159,7 @@ void archiver::read_header(int filedsc){
     errcode=flt.errcode;
     if(errcode) break;
     else rwl+=lenght;
-    if((lenght<4)||(pack.decoding_error)){
+    if(lenght<4){
       errcode=0x00000800;
       break;
     };
@@ -184,7 +181,7 @@ void archiver::read_header(int filedsc){
         break;
       }
       else rwl+=lenght;
-      if((lenght<(int32_t)rw_lenght)||(pack.decoding_error)){
+      if(lenght<(int32_t)rw_lenght){
         errcode=0x00000800;
         memset(content,0,rw_lenght);
         free(content);
@@ -212,7 +209,6 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
   if(errcode) return;
   FILE *io_stream=NULL;
   FILE *tm_stream=NULL;
-  int io_file=0;
   int tm_file=0;
   unsigned char clenght[4];
   long lenght=0;
@@ -246,9 +242,8 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       return;
     };
     setvbuf(io_stream,iobuffer,_IOFBF,_BUFFER_SIZE);
-    io_file=fileno(io_stream);
     if(flt.ignore_sn==false){
-      if(axis_sign(io_file,unarc)==-1){
+      if(axis_sign(io_stream,unarc)==-1){
         errcode=0x00000100;
         fclose(io_stream);
         free(iobuffer);
@@ -300,8 +295,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       free(iobuffer);
       return;
     };
-    pack.set(&flt,false);
-    read_header(io_file);
+    read_header(io_stream);
     if(errcode){
       fclose(io_stream);
       if(content){
@@ -452,17 +446,13 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
           if(!rw_lenght_file) break;
           if(rw_lenght_file>_BUFFER_SIZE) lenght=_BUFFER_SIZE;
           else lenght=(uint32_t)rw_lenght_file;
-          lenght=pack.lzss_read(io_file,content,lenght);
+          lenght=pack.lzss_read(io_stream,content,lenght);
 #ifdef EINTR
           if(lenght<0 && errno==EINTR) continue;
 #endif
           errcode=flt.errcode;
           if(errcode) break;
           else rwl+=lenght;
-          if(pack.decoding_error){
-            errcode=0x00000800;
-            break;
-          }
           if((lenght!=_BUFFER_SIZE)&&((off64_t)lenght!=rw_lenght_file)){
             errcode=0x00000004;
             break;
@@ -726,25 +716,23 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       };
     }
     else io_stream=fdopen(fileno(stdout),"ab");
-    io_file=fileno(io_stream);
     setvbuf(io_stream,iobuffer,_IOFBF,_BUFFER_SIZE);
     if(flt.ignore_sn==false){
-      if(axis_sign(io_file,unarc)==-1){
+      if(axis_sign(io_stream,unarc)==-1){
         errcode=0x00000200;
         fclose(io_stream);
         free(iobuffer);
         return;
       };
     };
-    pack.set(&flt,true);
     long2char_s(clenght,timebits());
-    pack.lzss_write(io_file,(char *)clenght,sizeof(uint32_t));
+    pack.lzss_write(io_stream,(char *)clenght,sizeof(uint32_t));
     errcode=flt.errcode;
     if(errcode==0){
       while(1){
         content=tree->get_next_content(lenght);
         if(content){
-          pack.lzss_write(io_file,content,lenght);
+          pack.lzss_write(io_stream,content,lenght);
           errcode=flt.errcode;
           if(errcode) break;
           else rwl+=lenght;
@@ -762,7 +750,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       return;
     };
     long2char_s(clenght,0xffffffff);
-    pack.lzss_write(io_file,(char *)clenght,sizeof(uint32_t));
+    pack.lzss_write(io_stream,(char *)clenght,sizeof(uint32_t));
     errcode=flt.errcode;
     if(errcode==0){
       content=(char *)calloc(_BUFFER_SIZE,sizeof(char));
@@ -825,7 +813,7 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
           errcode=0x00004000;
           break;
         };
-        pack.lzss_write(io_file,content,lenght);
+        pack.lzss_write(io_stream,content,lenght);
         errcode=flt.errcode;
         if(errcode) break;
         else rwl+=lenght;
@@ -837,11 +825,11 @@ void archiver::archive(const char *filename, bool unarc, uint8_t unarc_null){ //
       if(errcode) break;
     };
     pack.finalize=true;
-    while(pack.is_eof(io_file)==0){
-     pack.lzss_write(io_file,NULL,0);
+    while(pack.is_eof(io_stream)==0){
+     pack.lzss_write(io_stream,NULL,0);
      if(flt.errcode) break;
     };
-    flt.write_sync_flt(io_file);
+    flt.write_sync_flt(io_stream);
     errcode=flt.errcode;
     memset(content,0,_BUFFER_SIZE);
     free(content);

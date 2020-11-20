@@ -11,7 +11,6 @@ SOURCES =   random.cc \
             ecc.cc \
             signature.cc \
             filters.cc \
-            buffers.cc \
             rc32.cc \
             nvoc.cc \
             lzss.cc \

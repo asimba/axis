@@ -21,6 +21,7 @@
       void buffer_transcode(unsigned char *buffer, uint32_t &lenght);
       int32_t iolenght;
       unsigned char *iobuffer;
+      int32_t eof;
     public:
       bool ignore_sn;
       bool ignore_rc;
@@ -32,10 +33,11 @@
       void set_check();
       void set_decrypt();
       void set(char *p);
-      void write_flt(int filedsc, char *buf, int32_t lenght);
-      int32_t read_flt(int filedsc, char *buf, int32_t lenght);
-      void write_sync_flt(int filedsc);
-      void read_sync_flt(int filedsc);
+      int32_t write_flt(FILE *filedsc, char *buf, int32_t lenght);
+      int32_t read_flt(FILE *filedsc, char *buf, int32_t lenght);
+      void write_sync_flt(FILE *filedsc);
+      void read_sync_flt(FILE *filedsc);
+      int32_t is_eof(FILE *filedsc);
       void reset();
       void transcode(const char *ifile, const char *ofile);
       filters();

@@ -7,32 +7,28 @@
 
   struct vocnode{
     uint8_t value;
-    uint32_t index;
-    struct vocnode *next;
-    struct vocnode *relative;
+    int32_t relative;
   };
 
   struct vocpntr{
-    struct vocnode *in;
-    struct vocnode *out;
+    int32_t in;
+    int32_t out;
   };
 
   class nvoc{
     private:
       struct vocnode *vocarea;
-      struct vocnode *vocroot;
-      struct vocnode *vocstop;
-      struct vocnode *voclast;
-      struct vocpntr *vocindx;
+      uint16_t vocroot;
+      uint16_t voclast;
     public:
-      uint32_t vocsize;
-      uint32_t offset;
-      uint32_t lenght;
-      void search(uint8_t *str, uint32_t size);
-      void write(uint8_t *str, uint32_t size);
+      struct vocpntr *vocindx;
+      uint16_t offset;
+      uint16_t lenght;
+      void search(uint8_t *str, uint16_t size);
+      void write(uint8_t *str, uint16_t size);
       void write_woupdate(uint8_t *str, uint16_t size);
-      int read(uint8_t *str, uint32_t index, uint32_t size);
-      nvoc(uint32_t size);
+      void read(uint8_t *str, uint16_t index, uint16_t size);
+      nvoc();
       ~nvoc();
   };
 

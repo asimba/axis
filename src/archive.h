@@ -8,6 +8,7 @@
 #include <inttypes.h>
 #include <sys/time.h>
 #include <libgen.h>
+#include <filters.h>
 #include "ftree.h"
 #include "canonicalize.h"
 #include "mdirs.h"
@@ -44,7 +45,7 @@
     private:
       ftree *tree;
       char *base;
-      void read_header(int filedsc);
+      void read_header(FILE *filedsc);
       checksum_operator c_f;
       list_operator l_f;
       list_summary_operator ls_f;

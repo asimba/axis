@@ -24,6 +24,7 @@ void filters::reset(){ //функция сброса параметров объ
   ignore_rc=false;
   op_code=0;
   errcode=0;
+  eof=0;
   slag=NULL;
   if(transcoder){
     delete transcoder;
@@ -117,9 +118,7 @@ void filters::buffer_transcode(unsigned char *buffer, uint32_t &lenght){ //фу�
   };
 }
 
-#include <unistd.h>
-
-void filters::write_sync_flt(int filedsc){ //синхронизация буфера фильтра (режим записи)
+void filters::write_sync_flt(FILE *filedsc){ //синхронизация буфера фильтра (режим записи)
   if(errcode) return;
   if(((op_code==0x10)||(op_code==0x20))&&(ignore_rc)){
     errcode=0x00000008;
@@ -128,30 +127,29 @@ void filters::write_sync_flt(int filedsc){ //синхронизация буфе
   if(iolenght){
     buffer_transcode(iobuffer,(uint32_t &)iolenght);
     if(op_code!=0x20){
-      iolenght=write(filedsc,(char *)iobuffer,iolenght);
-      if(iolenght<=0) errcode=0x00000200;
+      if((int32_t)fwrite(iobuffer,1,iolenght,filedsc)<iolenght) errcode=0x00000200;
     };
     iolenght=0;
   };
 }
 
-void filters::read_sync_flt(int filedsc){ //синхронизация буфера фильтра (режим чтения)
+void filters::read_sync_flt(FILE *filedsc){ //синхронизация буфера фильтра (режим чтения)
   if(errcode) return;
   if(((op_code==0x10)||(op_code==0x20))&&(ignore_rc)){
     errcode=0x00000008;
     return;
   };
   if(ignore_rc)
-    iolenght=read(filedsc,(char *)iobuffer,_BUFFER_SIZE);
+    iolenght=fread(iobuffer,1,_BUFFER_SIZE,filedsc);
   else
-    iolenght=read(filedsc,(char *)iobuffer,_LE_BUFFER_SIZE);
-  if(iolenght<0) errcode=0x00000004;
+    iolenght=fread(iobuffer,1,_LE_BUFFER_SIZE,filedsc);
+  if(ferror(filedsc)) errcode=0x00000004;
   else{
     if(iolenght) buffer_transcode(iobuffer,(uint32_t &)iolenght);
   };
 }
 
-int32_t filters::read_flt(int filedsc, char *buf, int32_t lenght){ //чтение из буфера фильтра
+int32_t filters::read_flt(FILE *filedsc, char *buf, int32_t lenght){ //чтение из буфера фильтра
   if(errcode) return -1;
   if(((op_code==0x10)||(op_code==0x20))&&(ignore_rc)){
     errcode=0x00000008;
@@ -179,11 +177,11 @@ int32_t filters::read_flt(int filedsc, char *buf, int32_t lenght){ //чтени�
   else return ln;
 }
 
-void filters::write_flt(int filedsc, char *buf, int32_t lenght){ //запись в буфер фильтра
-  if(errcode) return;
+int32_t filters::write_flt(FILE *filedsc, char *buf, int32_t lenght){ //запись в буфер фильтра
+  if(errcode) return -1;
   if(((op_code==0x10)||(op_code==0x20))&&(ignore_rc)){
     errcode=0x00000008;
-    return;
+    return -1;
   };
   int32_t bc;
   if(ignore_rc) bc=_BUFFER_SIZE;
@@ -207,6 +205,12 @@ void filters::write_flt(int filedsc, char *buf, int32_t lenght){ //запись 
       lenght=0;
     };
   };
+  if(errcode) return -1;
+  return 0;
+}
+
+int32_t filters::is_eof(FILE *filedsc){
+  return eof;
 }
 
 void filters::transcode(const char *ifile, const char *ofile){ //основная функция преобразования
@@ -218,8 +222,6 @@ void filters::transcode(const char *ifile, const char *ofile){ //основна�
   int32_t lenght=0;
   FILE *in_stream=NULL;
   FILE *out_stream=NULL;
-  int in_file=0;
-  int out_file=0;
   unsigned char *buffer=(unsigned char *)calloc(_LE_BUFFER_SIZE,sizeof(unsigned char));
   if(buffer==NULL){
     errcode=0x00000001;
@@ -251,7 +253,6 @@ void filters::transcode(const char *ifile, const char *ofile){ //основна�
       };
     }
     else out_stream=fdopen(fileno(stdout),"ab");
-    out_file=fileno(out_stream);
     setvbuf(out_stream,obuffer,_IOFBF,_LE_BUFFER_SIZE);
   };
   if(ifile){
@@ -268,16 +269,15 @@ void filters::transcode(const char *ifile, const char *ofile){ //основна�
     };
   }
   else in_stream=fdopen(fileno(stdin),"rb");
-  in_file=fileno(in_stream);
   setvbuf(in_stream,ibuffer,_IOFBF,_LE_BUFFER_SIZE);
   corrector.set_decode();
-  if(ignore_sn==false){    
-    if(axis_sign(in_file,true)==-1){
+  if(ignore_sn==false){
+    if(axis_sign(in_stream,true)==-1){
       errcode=0x00000100;
     }
     else{
       if(op_code==0x10){
-        if(axis_sign(out_file,false)==-1){
+        if(axis_sign(out_stream,false)==-1){
           errcode=0x00000200;
         };
       };
@@ -285,17 +285,19 @@ void filters::transcode(const char *ifile, const char *ofile){ //основна�
   };
   if(errcode==0){
     while(1){
-      lenght=read(in_file,(char *)buffer,_LE_BUFFER_SIZE);
+      lenght=fread(buffer,1,_LE_BUFFER_SIZE,in_stream);
 #ifdef EINTR
       if(lenght<0 && errno==EINTR) continue;
 #endif
+      if(ferror(in_stream)) lenght=-1;
       if(lenght<=0) break;
-      write_flt(out_file,(char *)buffer,(uint32_t)lenght);
+      write_flt(out_stream,(char *)buffer,(uint32_t)lenght);
       if(errcode) break;
     };
-    write_sync_flt(out_file);
+    write_sync_flt(out_stream);
   };
   fclose(in_stream);
+  eof=1;
   if((errcode==0)&&(lenght==-1)) errcode=0x00000004;
   if(op_code!=0x20){
     fclose(out_stream);

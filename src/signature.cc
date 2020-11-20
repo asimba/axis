@@ -1,13 +1,12 @@
 #include "signature.h"
-#include <unistd.h>
 
-int axis_sign(int fildes, bool check){
-  unsigned char original_sign[]={0x78,0x73,0x03,0x99};
+int axis_sign(FILE *fildes, bool check){
+  unsigned char original_sign[]={0x78,0x73,0x03,0xaa};
   unsigned char target_sign[4];
   int c=0;
   if(check){
-    if(read(fildes,target_sign,4)<4) c=-1;
-    else{ 
+    if(fread(target_sign,1,4,fildes)<4) c=-1;
+    else{
       for(c=0; c<4; c++){
         if(original_sign[c]!=target_sign[c]){
           c=-1;
@@ -17,7 +16,7 @@ int axis_sign(int fildes, bool check){
     };
   }
   else{
-    if(write(fildes,original_sign,4)<4) c=-1;
+    if(fwrite(original_sign,1,4,fildes)<4) c=-1;
   };
   return c;
 }

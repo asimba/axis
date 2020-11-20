@@ -4,136 +4,48 @@
 //Базовый класс для упаковки/распаковки потока по упрощённому алгоритму LZSS
 /***********************************************************************************************************/
 
-codebuf::codebuf(){
-  reset();
-  buffer_size=LZ_LENGHT_CAPACITY+LZ_OFFSET_CAPACITY+1;
-  buffer=(uint8_t *)calloc(buffer_size,sizeof(uint8_t));
-}
-
-codebuf::~codebuf(){
-  if(buffer){
-    memset(buffer,0,buffer_size);
-    free(buffer);
-    buffer=NULL;
-  };
-  reset();
-  buffer_size=0;
-}
-
-void codebuf::write(uint8_t flag, uint32_t lenght, uint32_t offset){
-  if(flags_count==8) return;
-  flags<<=1;
-  if(flag){
-    flags|=0x01;
-    buffer[buffer_position]=(uint8_t)lenght;
-    buffer_position++;
-    buffer[buffer_position]=(uint8_t)(offset>>8);
-    buffer_position++;
-    buffer[buffer_position]=(uint8_t)offset;
-  }
-  else buffer[buffer_position]=(uint8_t)lenght;
-  buffer_position++;
-  flags_count++;
-}
-
-void codebuf::read(uint8_t &flag, uint32_t &lenght, uint32_t &offset){
-  if(flags_count==0) return;
-  if(flags&0x80){
-    flag=1;
-    lenght=buffer[buffer_position];
-    buffer_position++;
-    offset=buffer[buffer_position];
-    buffer_position++;
-    offset<<=8;
-    offset|=buffer[buffer_position];
-    buffer_position++;
-  }
-  else{
-    flag=0;
-    lenght=buffer[buffer_position];
-    buffer_position++;
-  };
-  flags<<=1;
-  flags_count--;
-}
-
-void codebuf::reset(){
-  flags=0;
-  flags_count=0;
-  buffer_position=0;
-}
-
-uint8_t codebuf::flags_buffer_size(){
-  uint8_t l=0;
-  if(flags_count){
-    uint8_t tflags=flags;
-    for(uint8_t c=0; c<8; c++){
-      if(tflags&0x01) l+=3;
-      else l++;
-      tflags>>=1;
-    };
-  };
-  return l;
-}
-
 lzss::lzss(){
   lzbuf=NULL;
-  if(pack.frequency==NULL) return;
-  cbuf=new codebuf();
-  if(cbuf&&(cbuf->buffer)) voc=new nvoc(LZ_VOC_SIZE);
-  else return;
-  if(voc){
-    if(voc->vocsize==0){
-      delete voc;
-      voc=NULL;
-      delete cbuf;
-      cbuf=NULL;
-    };
+  if((pack.frequency==NULL)||(voc.vocindx==NULL)) return;
+  cbuffer=(uint8_t *)calloc(LZ_CAPACITY+1,sizeof(uint8_t));
+  if(cbuffer){
+    cbuffer[0]=cflags_count=0;
+    cbuffer_position=1;
   }
-  else{
-    delete cbuf;
-    cbuf=NULL;
-  };
-  if(voc){
-    lzbuf=(uint8_t *)calloc(LZ_BUF_SIZE,sizeof(uint8_t));
-    if(lzbuf){
-      buf_size=0;
-      op_code=true;
-      finalize=false;
-      decoding_error=false;
-    }
-    else{
-      delete voc;
-      voc=NULL;
-      delete cbuf;
-      cbuf=NULL;
-    };
-  };
+  else return;
+  lzbuf_pntr=lzbuf=(uint8_t *)calloc(LZ_BUF_SIZE*2,sizeof(uint8_t));
+  if(lzbuf){
+    lzbuf_indx=buf_size=0;
+    op_code=true;
+    finalize=false;
+  }
+  else free(cbuffer);
 }
 
 lzss::~lzss(){
   if(lzbuf){
-    delete voc;
-    voc=NULL;
-    delete cbuf;
-    cbuf=NULL;
-    memset(lzbuf,0,LZ_BUF_SIZE);
+    memset(cbuffer,0,LZ_CAPACITY+1);
+    free(cbuffer);
+    cbuffer=NULL;
+    memset(lzbuf,0,LZ_BUF_SIZE*2);
     free(lzbuf);
     lzbuf=NULL;
   };
+  cflags_count=0;
+  cbuffer_position=0;
   buf_size=0;
+  lzbuf_pntr=NULL;
+  lzbuf_indx=0;
   op_code=false;
   finalize=false;
-  decoding_error=false;
 }
 
-void lzss::set(filters *flt, bool mode){
-  op_code=mode;
-  pack.set(flt,mode);
+void lzss::set_filters(filters *f){
+  if(f) pack.flt=f;
 }
 
-void lzss::lzss_write(int filedsc, char *buf, int32_t ln){
-  int retln=0;
+int32_t lzss::lzss_write(FILE* file, char *buf, int32_t ln){
+  int32_t retln=0;
   uint32_t c;
   if(finalize) ln+=buf_size;
   while(ln){
@@ -141,42 +53,58 @@ void lzss::lzss_write(int filedsc, char *buf, int32_t ln){
     if(finalize==false){
       if(retln!=0){
         if(retln>ln) retln=ln;
-        memcpy(lzbuf+buf_size,buf,retln);
+        memcpy(lzbuf_pntr+buf_size,buf,retln);
         buf+=retln;
         ln-=retln;
         buf_size+=retln;
       }
     }
     else ln-=buf_size;
-    voc->search(lzbuf,buf_size);
-    if(cbuf->flags_count==8){
-      if(pack.rc32_write(filedsc,(char*)(&(cbuf->flags)),1)<0) return;
-      if(pack.rc32_write(filedsc,(char*)cbuf->buffer,
-                         cbuf->buffer_position)<0) return;
-      cbuf->reset();
+    if((finalize==false)&&(ln==0)) break;
+    voc.search(lzbuf_pntr,buf_size);
+    if(cflags_count==8){
+      if(pack.rc32_write(file,(char*)cbuffer,cbuffer_position)<0) return -1;
+      cbuffer[0]=cflags_count=0;
+      cbuffer_position=1;
     };
-    if(voc->lenght){
-      c=voc->lenght;
-      cbuf->write(1,c-LZ_MIN_MATCH,voc->offset);
+    if(voc.lenght>=LZ_MIN_MATCH){
+      c=voc.lenght;
+      cbuffer[0]<<=1;
+      cbuffer[0]|=0x01;
+      cbuffer[cbuffer_position++]=(uint8_t)(c-LZ_MIN_MATCH);
+      *(uint16_t*)&cbuffer[cbuffer_position]=voc.offset;
+      cbuffer_position+=sizeof(uint16_t);
+      cflags_count++;
     }
     else{
       c=1;
-      cbuf->write(0,lzbuf[0],0);
+      cbuffer[0]<<=1;
+      cbuffer[cbuffer_position++]=lzbuf_pntr[0];
+      cflags_count++;
     };
-    voc->write(lzbuf,c);
-    memmove(lzbuf,lzbuf+c,LZ_BUF_SIZE-c);
+    voc.write(lzbuf_pntr,c);
+    if((lzbuf_indx+c)>=LZ_BUF_SIZE){
+      memmove(lzbuf,lzbuf_pntr+c,LZ_BUF_SIZE-c);
+      lzbuf_pntr=lzbuf;
+      lzbuf_indx=0;
+    }
+    else{
+      lzbuf_pntr=&lzbuf_pntr[c];
+      lzbuf_indx+=c;
+    };
     buf_size-=c;
   };
-  return;
+  return 1;
 }
 
-int32_t lzss::lzss_read(int filedsc, char *buf, int32_t ln){
+int32_t lzss::lzss_read(FILE* file, char *buf, int32_t ln){
   int32_t retln;
   int32_t rl=0;
   uint8_t f=0;
-  uint32_t c=0;
-  uint32_t o=0;
-  while(ln>0){
+  uint16_t c=0;
+  uint16_t o=0;
+  if(pack.eof) return 0;
+  while(ln){
     if(buf_size){
       retln=(ln>buf_size)?buf_size:ln;
       memcpy(buf,lzbuf,retln);
@@ -187,52 +115,55 @@ int32_t lzss::lzss_read(int filedsc, char *buf, int32_t ln){
       buf_size-=retln;
     }
     else{
-      if(cbuf->flags_count==0){
-        if(pack.rc32_read(filedsc,(char*)(&cbuf->flags),1)<=0) return -1;
-        if(pack.decoding_error){
-          decoding_error=true;
-          return -1;
+      if(cflags_count==0){
+        if(pack.rc32_read(file,(char*)cbuffer,1)<0) return -1;
+        if(pack.eof) return 0;
+        cbuffer_position=1;
+        c=0;
+        f=cbuffer[0];
+        for(cflags_count=0; cflags_count<8; cflags_count++){
+          if(f&0x01) c+=3;
+          else c++;
+          f>>=1;
         };
-        cbuf->flags_count=8;
-        cbuf->buffer_position=0;
-        if(pack.rc32_read(filedsc,(char*)cbuf->buffer,
-                          cbuf->flags_buffer_size())<=0) return -1;
-        if(pack.decoding_error){
-          decoding_error=true;
-          return -1;
-        };
+        if(pack.rc32_read(file,(char*)(&cbuffer[1]),c)<0) return -1;
       };
-      cbuf->read(f,c,o);
-      if(f==0){
-        lzbuf[0]=(uint8_t)(c);
-        voc->write_woupdate(lzbuf,1);
-        buf_size=1;
+      if(cbuffer[0]&0x80){
+        c=cbuffer[cbuffer_position++]+LZ_MIN_MATCH;
+        o=*(uint16_t*)&cbuffer[cbuffer_position];
+        cbuffer_position+=sizeof(uint16_t);
+        voc.read(lzbuf,o,c);
+        voc.write_woupdate(lzbuf,c);
+        buf_size=c;
       }
       else{
-        c+=LZ_MIN_MATCH;
-        if(voc->read(lzbuf,o,c)<0) return -1;
-        voc->write_woupdate(lzbuf,c);
-        buf_size=c;
+        lzbuf[0]=cbuffer[cbuffer_position++];
+        voc.write_woupdate(lzbuf,1);
+        buf_size=1;
       };
+      cbuffer[0]<<=1;
+      cflags_count--;
       if(finalize) break;
     };
   };
   return rl;
 }
 
-int lzss::is_eof(int filedsc){
+
+int lzss::is_eof(FILE* file){
   if(finalize&&(buf_size==0)){
     if(op_code){
-      if(cbuf->flags_count){
-        while(cbuf->flags_count<8) cbuf->write(0,0,0);
-        if(pack.rc32_write(filedsc,(char*)(&(cbuf->flags)),1)<0) return -1;
-        if(pack.rc32_write(filedsc,(char*)cbuf->buffer,
-                           cbuf->buffer_position)<0) return -1;
-        cbuf->reset();
+      if(cflags_count){
+        while(cflags_count<8){
+          cbuffer[0]<<=1;
+          cbuffer[cbuffer_position++]=0;
+          cflags_count++;
+        };
+        if(pack.rc32_write(file,(char*)cbuffer,cbuffer_position)<0) return -1;
       };
       pack.finalize=true;
-      while(pack.is_eof()==false){
-        if(pack.rc32_write(filedsc,NULL,0)<0) return -1;
+      while(pack.eof==false){
+        if(pack.rc32_write(file,NULL,0)<0) return -1;
       };
       return 1;
     }

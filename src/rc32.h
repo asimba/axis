@@ -1,8 +1,12 @@
 #ifndef _RC32_H
 #define _RC32_H 1
 
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <malloc.h>
+#include <fcntl.h>
 #include "filters.h"
-#include "buffers.h"
 
 #define _RC32_BUFFER_SIZE 32768
 
@@ -15,28 +19,17 @@
       uint32_t low;
       uint32_t hlp;
       uint32_t range;
-      uint8_t waiting;
-      buffers ibuffer;
-      buffers obuffer;
-      bool eof;
-      bool op_code;
       bool init;
-      filters *xs;
       uint8_t *pqbuffer;
-      void initialize();
-      inline void rescale();
-      inline void encode();
-      inline void decode();
-      void finalize_encode();
-      void initialize_decode();
+      uint32_t bufsize;
+      uint32_t rbufsize;
     public:
       uint32_t *frequency;
+      bool eof;
       bool finalize;
-      bool decoding_error;
-      void set(filters *flt, bool pack);
-      int32_t rc32_read(int filedsc, char *buf, int32_t lenght);
-      int32_t rc32_write(int filedsc, char *buf, int32_t lenght);
-      bool is_eof();
+      filters *flt;
+      int32_t rc32_read(FILE* file, char *buf, int32_t lenght);
+      int32_t rc32_write(FILE* file, char *buf, int32_t lenght);
       rc32();
       ~rc32();
   };
