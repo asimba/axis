@@ -6,8 +6,8 @@ f796b459c929503adf3974770b0c44a28053eb08 ./axis.layout
 13f0452851dc1636e65cb144efc7946b99f245fd ./genhash.cbp
 eb8168dbb187a9331adf549b1653d1a6971f1748 ./genhash.layout
 547331b6beccf7bd63231084b8fa85db7202da80 ./makefile
-42cd7478328e72f90e22d50d02d3ecbce352dc92 ./bin/axis
-3b3e9d16509b6efbcd327132d6bf3a2c35b6013b ./bin/axis.exe
+220017ec4c4ffa015c9ceb3552c538b82223839f ./bin/axis
+1882269b46c84431240cc57ea4e7f7cbd89b9dd3 ./bin/axis.exe
 ffd10c35dad3e3cedac3969b7c77153084e12e51 ./bin/axisgui.py
 03ec91ada0a428542fe822d749325dabb54fda53 ./src/archive.cc
 7aff41f4b093297ea58ec523b9537a7a28c94c25 ./src/archive.h
@@ -21,7 +21,7 @@ c401f18709e9ba1200f7be24e722197147735369 ./src/axislogo.svg
 ac28702e2fc0df8d7adee5d33a75d81b32fbfbd4 ./src/axisum.h
 fc366afb9a903a32ace74eae494e849188bb4b5d ./src/bnode.cc
 e8a048b2ff204d86a8c97084029052cad7c32dc4 ./src/bnode.h
-1f228fb798c659fdfc91430e69ef927a2fb95c85 ./src/build.inc
+82e0e41beec39721269df59225efa623580cda28 ./src/build.inc
 4d94b873542e3d87b318cf24f2c15dd226b2434d ./src/buildinc
 9f1cd4c3b54f4c7bfd6c350067a99977a86a7d32 ./src/canonicalize.cc
 6d06c63018cf30c1ca1b78d6a33dde98aedfe388 ./src/canonicalize.h
@@ -52,14 +52,14 @@ d7146d2246662f24262cf1c27a7fdfb1e354df52 ./src/hash.cc
 ac31c2cea211f3322a854556b3d306f4e11382bc ./src/hashsums.sh
 de6c38169b986a60a91cbadb10752afb786f8c6e ./src/hashtbl.h
 e3b60e4feb6a99f12af95e078bbc8b7f603fba36 ./src/langdata.py
-373fbe25037b027667ee40dbaf07609bbfd0fd62 ./src/lzss.cc
+a5d2dd975f3353ad75737a8c518a5ea2c4e3d3fd ./src/lzss.cc
 6cca3c22e6e774bc22f1b7e6057757bdfcd6af31 ./src/lzss.h
 98b7be1377d25b75e9dea27cd34a58414de72946 ./src/makefile
 c95f3e2a22128e7e83108e5e52f735d9542598c9 ./src/makefile.mk
 db1f0474200d1ff94e42a862cb8e9c637b2189dc ./src/mdirs.cc
 2abbe0769065cbc81448baca09d6d30960862e06 ./src/mdirs.h
-03f7fdec061b6e24f51979726fc3191860544c1f ./src/nvoc.cc
-2fcbcfa61905079e44dc260baa256c42942ced58 ./src/nvoc.h
+8116ac906c7967718d390c21b990ef6dee3171f6 ./src/nvoc.cc
+d202433f4911e9e00d939c0547c0c60a89672389 ./src/nvoc.h
 56a1e17ff2d6fbd94daabf810234c253490d870b ./src/permutation.cc
 fae079803baac75cbf6154a3f536628310f7e768 ./src/permutation.h
 2b830bb5a3e0e3ac02fa904a87ff1f1290398b3c ./src/random.cc
@@ -74,5 +74,5 @@ e8408d7808d4535e25ee9d55ac1e99ae350fdcb3 ./src/timebits.h
 ef3526c8993eb84cb42bbd30b4b4d897aa595d56 ./src/translate.py
 538872498e61b87cf08aa7265e1506648f35bde2 ./src/vars.cc
 afbd6daec11670aca86a20b675e56651cf6ec33a ./src/vars.h
-30af35c0c0b5e561ae03a1a93863aca6b4f8ae84 ./src/version.h
-98376c7cc367990610b8d9e2366100a2f6d1afe9 ./src/version.inc
+5d5efecf4473d3feb336bccc7fa8c9160c3bd2f3 ./src/version.h
+98376c7cc36799062d1b5f32cc47d087ea9074e4 ./src/version.inc

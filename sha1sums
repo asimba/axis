@@ -1,8 +1,8 @@
 c6fb7fef0595ec8a0396b2711908b76277e8f4ab *./axis.cbp
 864b95b3fe1ab5ac4f0a646d7f4c61afc41f0af7 *./axis.layout
 707218dcedd1eedf194596f1d175bc76d5f1a51e *./axis.workspace
-40426302483c994969bb4bf2ee775c70f68ff406 *./bin/axis
-c23caa0342d945839115dd47565e5100dd6eedab *./bin/axis.exe
+974df87c5f65005460b7701cb55d1129abca4754 *./bin/axis
+bfb19e7d92950bd31527b1b105100a1f9327b312 *./bin/axis.exe
 6d8f7d55f6243c2b43f0fb64ad22523bb271a6c8 *./bin/axisgui.py
 fc438c6eee4ba62c6558b3cb6ce9fe774910d999 *./genhash.cbp
 4d7b9f8d6e8aba45c6a36ec8011420e9a66d6369 *./genhash.layout
@@ -21,7 +21,7 @@ e3a3bedcca7a3685625603156fb1d945b8b544b5 *./src/axisum.cc
 4a5d5ae6faa04225a35aa5751b290570a48809fb *./src/axisum.h
 c351f594eb4dfe133b6509f2e89f44ab026466fa *./src/bnode.cc
 1b9f0fd420710c08a229934026c2a978ab2cb685 *./src/bnode.h
-749584a1ac08db31d68fd4e7891ef1ee50a0127e *./src/build.inc
+42589729132e8a2fb4269a2fb2388538c8f2aad3 *./src/build.inc
 01d7ae4d64aac4aa3a7cb5a34e5dd008b95058f0 *./src/buildinc
 2a4ba2232e37cde6ccf4d85c0429bdb90081a687 *./src/canonicalize.cc
 d3cdb3d4423c1dc67367029ba7d6c73f3d332eee *./src/canonicalize.h
@@ -52,14 +52,14 @@ f97c42fb1e79d1fc8810e325705dd9c7a41649ca *./src/hash.cc
 204022959a462b2d6bcc75ace4de93e791591fe5 *./src/hashsums.sh
 2af34ddf0f216738484988dc4d3cf3eec98d3c87 *./src/hashtbl.h
 364391b6a8ea091c2e329673898d4d303918b4db *./src/langdata.py
-af904b4baf1ec64616d675fed3b43731d6b7d1e9 *./src/lzss.cc
+5169ee60f2951ca468171346ab08ac3f39f7fc6d *./src/lzss.cc
 7d252cb34bea7dec5519c3bfd717068847c34c5d *./src/lzss.h
 83ee29a40288ae7658381cad537e749f1ebc97ce *./src/makefile
 fcfe84ba2f191ef654d5cb65a99e92947f4e8ab2 *./src/makefile.mk
 c139da5ddf1c747eee44e5aafee6eb312af3e29e *./src/mdirs.cc
 7e2e741f8abec81de2f5372bb36963c67365267f *./src/mdirs.h
-c251ada640c0c6186650021130492a9e06c261f6 *./src/nvoc.cc
-5a213ea3606a7718d27719200dcc0667b7f4e90a *./src/nvoc.h
+7b4f3e3d33531b975da35b3111ce5c98707b791e *./src/nvoc.cc
+1757ea573c87932ba6bed214b615f37015ecf42f *./src/nvoc.h
 59f93ff4a50024bd34349b0c98d5b8f7fc8470e6 *./src/permutation.cc
 69db3be840f0ce074cfd51731553ad680a8d14b7 *./src/permutation.h
 d14f84cf902170ff48510ebaa4a7365b2525f8eb *./src/random.cc
@@ -74,5 +74,5 @@ e376c97e872fbe1aa697bac233877e2d852412e1 *./src/sources.inc
 55e7bb198358c358942c553bca178ad1658aa0d5 *./src/translate.py
 46025207b186c68b74526686560ed72decb7d64e *./src/vars.cc
 b496214fa6b932662b09dd09ab5d794359886ecd *./src/vars.h
-eafee171c44aa3aba47cec818820fa60aceba708 *./src/version.h
-366b70365e4ddc71981c9b6af8ce23c6d9ba4667 *./src/version.inc
+593cfc02af4f1ce07a8938b9bd3ba432a6f41cbe *./src/version.h
+d70d6231f10b39db3a88a1c92d3e1f7a669ef8bf *./src/version.inc

@@ -5,69 +5,78 @@
 /***********************************************************************************************************/
 
 nvoc::nvoc(){
-  offset=0;
-  lenght=0;
-  vocroot=0;
+  offset=lenght=vocroot=0;
   voclast=0xffff;
-  vocarea=(struct vocnode *)calloc(0x10000,sizeof(struct vocnode));
+  vocarea=(int32_t *)calloc(0x10000,sizeof(int32_t));
   if(vocarea){
     vocindx=(struct vocpntr *)calloc(0x10000,sizeof(struct vocpntr));
     if(vocindx==NULL) free(vocarea);
-    else for(uint32_t i=0;i<0x10000;i++) vocarea[i].relative=vocindx[i].in=vocindx[i].out=-1;
+    else{
+      vocbuf=(uint8_t *)calloc(0x10000,sizeof(uint8_t));
+      if(vocbuf){
+        for(uint32_t i=0;i<0x10000;i++) vocarea[i]=vocindx[i].in=vocindx[i].out=-1;
+      }
+      else{
+        free(vocarea);
+        free(vocindx);
+      };
+    };
   };
 }
 
 nvoc::~nvoc(){
-  if(vocindx){
-    memset(vocarea,0,0x10000*sizeof(struct vocnode));
+  if(vocbuf){
+    memset(vocarea,0,0x10000*sizeof(int32_t));
     free(vocarea);
     vocarea=NULL;
     memset(vocindx,0,0x10000*sizeof(struct vocpntr));
     free(vocindx);
     vocindx=NULL;
-    vocroot=0;
-    voclast=0;
-    offset=0;
-    lenght=0;
+    memset(vocbuf,0,0x10000);
+    free(vocbuf);
+    vocbuf=NULL;
   };
+  vocroot=0;
+  voclast=0;
+  offset=0;
+  lenght=0;
 }
 
 void nvoc::search(uint8_t *str,uint16_t size){
   offset=lenght=0;
   if(size<3) return;
   int32_t cnode=vocindx[*(uint16_t*)str].in;
+  bool ds=(str[0]^str[1])?false:true;
   while(cnode>=0){
-    if(str[lenght]==vocarea[(uint16_t)(cnode+lenght)].value){
+    if(str[lenght]==vocbuf[(uint16_t)(cnode+lenght)]){
       uint16_t tnode=cnode+2;
       uint16_t cl=2;
-      while((cl<size)&&(str[cl]==vocarea[tnode++].value)) cl++;
-      if(cl>lenght){
+      while((cl<size)&&(str[cl]==vocbuf[tnode++])) cl++;
+      if(cl>=lenght){
         lenght=cl;
         offset=cnode;
       };
-      if(cl==size) break;
-    }
-    cnode=vocarea[cnode].relative;
+      if(lenght==size) break;
+    };
+    cnode=vocarea[cnode];
+    if(ds&&(cnode>=0)) cnode=vocarea[cnode];
   };
-  if(lenght>2){
-    if(offset<vocroot) offset=(uint32_t)offset+0x10000-vocroot;
-    else offset-=vocroot;
-  };
+  if(lenght>2) offset-=vocroot;
 }
 
 void nvoc::write(uint8_t *str,uint16_t size){
   vocpntr *indx;
   while(size--){
     union {uint8_t c[sizeof(uint16_t)];uint16_t i16;} u;
-    u.c[0]=vocarea[vocroot].value;
-    u.c[1]=vocarea[(uint16_t)(vocroot+1)].value;
-    vocindx[u.i16].in=vocarea[vocroot].relative;
-    vocarea[vocroot].relative=-1;
-    vocarea[vocroot].value=*str++;
-    u.c[0]=vocarea[voclast].value;
-    u.c[1]=vocarea[vocroot].value;
+    u.c[0]=vocbuf[vocroot];
+    u.c[1]=vocbuf[(uint16_t)(vocroot+1)];
+    vocindx[u.i16].in=vocarea[vocroot];
+    vocarea[vocroot]=-1;
+    vocbuf[vocroot]=*str++;
+    u.c[0]=vocbuf[voclast];
+    u.c[1]=vocbuf[vocroot];
     indx=&vocindx[u.i16];
-    if(indx->in>=0) vocarea[indx->out].relative=voclast;
+    if(indx->in>=0) vocarea[indx->out]=voclast;
     else indx->in=voclast;
     indx->out=voclast;
     voclast++;
@@ -76,12 +85,12 @@ void nvoc::write(uint8_t *str,uint16_t size){
 }
 
 void nvoc::write_woupdate(uint8_t *str,uint16_t size){
-  while(size--) vocarea[vocroot++].value=*str++;
+  while(size--) vocbuf[vocroot++]=*str++;
 }
 
 void nvoc::read(uint8_t *str,uint16_t index,uint16_t size){
   index+=vocroot;
-  while(size--) *str++=vocarea[index++].value;
+  while(size--) *str++=vocbuf[index++];
 }
 
 /***********************************************************************************************************/

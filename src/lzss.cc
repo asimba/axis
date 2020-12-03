@@ -72,16 +72,15 @@ int32_t lzss::lzss_write(FILE* file, char *buf, int32_t ln){
       cbuffer[0]<<=1;
       cbuffer[0]|=0x01;
       cbuffer[cbuffer_position++]=(uint8_t)(c-LZ_MIN_MATCH);
-      *(uint16_t*)&cbuffer[cbuffer_position]=voc.offset;
-      cbuffer_position+=sizeof(uint16_t);
-      cflags_count++;
+      *(uint16_t*)&cbuffer[cbuffer_position++]=voc.offset;
     }
     else{
       c=1;
       cbuffer[0]<<=1;
-      cbuffer[cbuffer_position++]=lzbuf_pntr[0];
-      cflags_count++;
+      cbuffer[cbuffer_position]=lzbuf_pntr[0];
     };
+    cbuffer_position++;
+    cflags_count++;
     voc.write(lzbuf_pntr,c);
     if((lzbuf_indx+c)>=LZ_BUF_SIZE){
       memmove(lzbuf,lzbuf_pntr+c,LZ_BUF_SIZE-c);

@@ -5,11 +5,6 @@
 #include <string.h>
 #include <malloc.h>
 
-  struct vocnode{
-    uint8_t value;
-    int32_t relative;
-  };
-
   struct vocpntr{
     int32_t in;
     int32_t out;
@@ -17,7 +12,8 @@
 
   class nvoc{
     private:
-      struct vocnode *vocarea;
+      int32_t *vocarea;
+      uint8_t *vocbuf;
       uint16_t vocroot;
       uint16_t voclast;
     public:
