@@ -28,7 +28,17 @@ int32_t rc32::rc32_read(FILE* file, char *buf, int32_t lenght){
     range/=frequency[256];
     uint32_t count=(hlp-low)/range;
     if(count>=frequency[256]) return -1;
-    for(i=255; frequency[i]>count; i--) if(!i) break;
+    i=0;
+    uint16_t j=128;
+    while(j){
+      if(frequency[i]<=count) i+=j;
+      else{
+        if(i) i-=j;
+        else break;
+      };
+      j>>=1;
+    };
+    if(frequency[i]>count&&i) i--;
     *buf=(uint8_t)i;
     low+=frequency[i]*range;
     range*=frequency[i+1]-frequency[i];
