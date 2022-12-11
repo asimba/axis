@@ -8,12 +8,12 @@
 #include <inttypes.h>
 #include <sys/time.h>
 #include <libgen.h>
-#include <filters.h>
+#include "filters.h"
 #include "ftree.h"
 #include "canonicalize.h"
 #include "mdirs.h"
 #include "signature.h"
-#include "lzss.h"
+#include "packer.h"
 #include "axisum.h"
 #include "etc.h"
 #include "timebits.h"
@@ -52,7 +52,7 @@
     public:
       bool ignore_pt;
       filters flt;
-      lzss pack;
+      packer pack;
       uint32_t errcode;
       uint32_t header_size;
       uint64_t data_size;

@@ -1,7 +1,7 @@
 #include "axisum.h"
 
 #ifndef _BUFFER_SIZE
-  #define _BUFFER_SIZE 32768
+  #define _BUFFER_SIZE 0x10000
 #endif
 
 void checksum_print(const struct checksum_record *v){
@@ -48,24 +48,24 @@ uint32_t axisum(scxh *hash, const char *filename, checksum_operator f){
       setvbuf(i_stream,ibuffer,_IOFBF,_BUFFER_SIZE);
       char *content=(char *)calloc(_BUFFER_SIZE,sizeof(char));
       if(content){
-        int lenght=0;
+        int length=0;
         int filedsc=fileno(i_stream);
         char *t_buf=content;
         int t_len=0;
         int t_size=_BUFFER_SIZE;
         while(1){
-          lenght=read(filedsc,t_buf,t_size);
+          length=read(filedsc,t_buf,t_size);
 #ifdef EINTR
-          if(lenght<0 && errno=EINTR) continue;
+          if(length<0 && errno=EINTR) continue;
 #endif
-          if(lenght<0){
+          if(length<0){
             errcode=0x00000040;
             break;
           };
-          t_len+=lenght;
-          if((t_len<_BUFFER_SIZE)&&(lenght!=0)){
-            t_buf+=lenght;
-            t_size-=lenght;
+          t_len+=length;
+          if((t_len<_BUFFER_SIZE)&&(length!=0)){
+            t_buf+=length;
+            t_size-=length;
             continue;
           };
           if(t_len){
@@ -75,7 +75,7 @@ uint32_t axisum(scxh *hash, const char *filename, checksum_operator f){
           t_len=0;
           t_size=_BUFFER_SIZE;
           t_buf=content;
-          if(lenght==0) break;
+          if(length==0) break;
         };
         if(errcode==0){
           if(f!=NULL){

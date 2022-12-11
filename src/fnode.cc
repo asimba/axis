@@ -31,7 +31,7 @@ void fnode::free_nodes(){ //функция сброса всех парамет�
   };
   nodes=NULL;
   t_nodes=NULL;
-  lenght=0;
+  length=0;
 }
 
 fnode::~fnode(){ //деструктор класса
@@ -112,7 +112,7 @@ void fnode::scannode(const char *base_name){ //функция простого �
     nodes->info->uids=(uint32_t)t_stat.st_uid;
     nodes->info->gids=(uint32_t)t_stat.st_gid;
   };
-  lenght+=(strlen(nodes->name)+NSTAT_SIZE+1);
+  length+=(strlen(nodes->name)+NSTAT_SIZE+1);
   nodes=t_nodes;
 }
 
@@ -246,9 +246,9 @@ void fnode::scandir(const char *base_name){ //основная функция п
       free(t_name);
       t_name=NULL;
 #ifndef _WIN32
-      lenght+=(strlen(dir->d_name)+NSTAT_SIZE+1);
+      length+=(strlen(dir->d_name)+NSTAT_SIZE+1);
 #else
-      lenght+=(strlen(utf8_name)+NSTAT_SIZE+1);
+      length+=(strlen(utf8_name)+NSTAT_SIZE+1);
 #endif
       nodes->next=(struct node *)calloc(1, sizeof(struct node));
       if(nodes->next) p_node=nodes;
@@ -262,7 +262,7 @@ void fnode::scandir(const char *base_name){ //основная функция п
 #else
     _wclosedir(dp);
 #endif
-    if(lenght) nodes=t_nodes;
+    if(length) nodes=t_nodes;
     else{
       nodes=NULL;
       t_nodes=NULL;

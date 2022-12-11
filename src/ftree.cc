@@ -146,7 +146,7 @@ void ftree::rebuild(){ //функция построения полного (р�
         };
       };
     };
-    header_size+=current->node->get_lenght();
+    header_size+=current->node->get_length();
     current=current->next;
   }
   current=tree;
@@ -237,7 +237,7 @@ char *ftree::get_next_content(long &l){ //функция получения ин
   if(!current) current=tree;
   else{
     ret=current->node->get_content();
-    l=current->node->get_lenght();
+    l=current->node->get_length();
     current=current->next;
   };
   return ret;

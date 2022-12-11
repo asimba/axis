@@ -6,7 +6,7 @@
 #include "ecc.h"
 
 #ifndef _BUFFER_SIZE
-  #define _BUFFER_SIZE 32768
+  #define _BUFFER_SIZE 0x10000
 #endif
 #define _LE_BUFFER_SIZE 65536
 
@@ -18,8 +18,8 @@
     private:
       cryptxs *transcoder;
       unsigned char op_code;
-      void buffer_transcode(unsigned char *buffer, uint32_t &lenght);
-      int32_t iolenght;
+      void buffer_transcode(unsigned char *buffer, uint32_t &length);
+      int32_t iolength;
       unsigned char *iobuffer;
       int32_t eof;
     public:
@@ -33,8 +33,8 @@
       void set_check();
       void set_decrypt();
       void set(char *p);
-      int32_t write_flt(FILE *filedsc, char *buf, int32_t lenght);
-      int32_t read_flt(FILE *filedsc, char *buf, int32_t lenght);
+      int32_t write_flt(FILE *filedsc, char *buf, int32_t length);
+      int32_t read_flt(FILE *filedsc, char *buf, int32_t length);
       void write_sync_flt(FILE *filedsc);
       void read_sync_flt(FILE *filedsc);
       int32_t is_eof(FILE *filedsc);

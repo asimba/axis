@@ -6,7 +6,7 @@
 
 void bnode::reset(){ //функция сброса основных параметров объекта класса
   content=NULL;
-  lenght=0;
+  length=0;
   data_size=0;
   position=NULL;
   memory_fail=false;
@@ -45,34 +45,34 @@ void bnode::addnode(const char *base_name){ //функция простого п
     delete ls;
     return;
   };
-  uint32_t new_lenght=0;
-  (*ls)>>new_lenght;
+  uint32_t new_length=0;
+  (*ls)>>new_length;
   char *new_content=NULL;
   if(content){
-    new_content=(char *)calloc(lenght+new_lenght,sizeof(char));
+    new_content=(char *)calloc(length+new_length,sizeof(char));
     if(new_content){
-      memcpy(new_content,content,lenght);
-      memset(content,0,lenght);
+      memcpy(new_content,content,length);
+      memset(content,0,length);
       free(content);
       content=new_content;
-      long2char(&content,lenght+new_lenght);
+      long2char(&content,length+new_length);
       content=new_content;
-      position=content+lenght;
-      lenght+=new_lenght;
+      position=content+length;
+      length+=new_length;
     }
     else{
       memory_fail=true;
-      memset(content,0,lenght);
+      memset(content,0,length);
       free(content);
       delete ls;
       return;
     };
   }
   else{
-    lenght=new_lenght+sizeof(uint32_t);
-    content=(char *)calloc(lenght,sizeof(char));
+    length=new_length+sizeof(uint32_t);
+    content=(char *)calloc(length,sizeof(char));
     position=content;
-    long2char(&position,lenght);
+    long2char(&position,length);
   };
   if(content){
     char *name;
@@ -111,12 +111,12 @@ void bnode::fcontent(const char *base_name){ //функция построени
     delete ls;
     return;
   };
-  (*ls)>>lenght;
-  lenght+=sizeof(uint32_t);
-  content=(char *)calloc(lenght,sizeof(char));
+  (*ls)>>length;
+  length+=sizeof(uint32_t);
+  content=(char *)calloc(length,sizeof(char));
   position=content;
   if(content){
-    if(lenght==sizeof(uint32_t)){
+    if(length==sizeof(uint32_t)){
       long2char(&position,sizeof(uint32_t));
       position=content;
       delete ls;
@@ -124,7 +124,7 @@ void bnode::fcontent(const char *base_name){ //функция построени
     };
     char *name;
     struct nstat *info;
-    long2char(&position,lenght);
+    long2char(&position,length);
     while(1){
       name=ls->get_node_name();
       info=ls->get_node_info();
@@ -150,13 +150,13 @@ char *bnode::get_content(){ //функция получения указател
   return content;
 }
 
-uint32_t bnode::get_lenght(){ //функция получения физической длины области памяти хранящей очередь
-  return lenght;
+uint32_t bnode::get_length(){ //функция получения физической длины области памяти хранящей очередь
+  return length;
 }
 
 bool bnode::get_next(struct infonode &in){ //функция получения информации об элементе очереди
-  if(lenght==sizeof(uint32_t)) return false;
-  if((uint32_t)(position-content)>=lenght){
+  if(length==sizeof(uint32_t)) return false;
+  if((uint32_t)(position-content)>=length){
     position=content;
     return false;
   }
@@ -178,7 +178,7 @@ void bnode::load_content(uint32_t l, char *b){ //функция загрузки
   position=content;
   if(content){
     long2char(&position,l);
-    lenght=l;
+    length=l;
     memcpy(position,b,l-sizeof(uint32_t));
     position=content;
   }

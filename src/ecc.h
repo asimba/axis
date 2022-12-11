@@ -17,7 +17,7 @@
     public:
       uint32_t softerr;
       uint32_t harderr;
-      uint32_t buffer_transcoder(unsigned char *iobuffer, uint32_t lenght);
+      uint32_t buffer_transcoder(unsigned char *iobuffer, uint32_t length);
       void set_decode();
       void reset();
       ecc();

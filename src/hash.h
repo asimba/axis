@@ -14,7 +14,7 @@
   */
   class scxh{
     private:
-      uint32_t lenght;
+      uint32_t length;
       bool init;
       void scxh_update(unsigned char *i);
       bool self_check();
@@ -23,7 +23,7 @@
       uint32_t hash[5];
       alfg *state;
       void operator << (uint32_t v){
-        if(state) lenght=v;
+        if(state) length=v;
       };
       void operator << (unsigned char *v){
         if(state) scxh_update(v);

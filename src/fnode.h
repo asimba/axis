@@ -51,7 +51,7 @@
       struct node *nodes;
       struct node *t_nodes;
       void free_nodes();
-      uint32_t lenght;
+      uint32_t length;
       void sort_nodes();
     public:
       bool memory_fail;
@@ -62,7 +62,7 @@
       char *get_node_name();
       struct nstat *get_node_info();
       void operator >> (uint32_t &l){
-        l=lenght;
+        l=length;
       };
       fnode();
       fnode(const char *base_name);

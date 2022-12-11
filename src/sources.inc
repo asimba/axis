@@ -11,9 +11,7 @@ SOURCES =   random.cc \
             ecc.cc \
             signature.cc \
             filters.cc \
-            rc32.cc \
-            nvoc.cc \
-            lzss.cc \
+            packer.cc \
             etc.cc \
             convert.cc \
             fnode.cc \

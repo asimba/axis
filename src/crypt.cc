@@ -135,7 +135,7 @@ void cryptxs::set(char *p, bool decode){ //функция инициализац
   if(uid) munlock(hash->hash,sizeof(uint32_t)*5);
 #endif
   delete hash;
-  lenght=0;
+  length=0;
   for(uint8_t c=0; c<6; c++){
     state[c]->cycles=NULL;
   };
@@ -178,8 +178,8 @@ inline void cryptxs::transcoder(unsigned char *i){ //основная функц
 }
 
 void cryptxs::buffer_transcoder(unsigned char *i){ //базовый цикл обработки содержимого буфера
-  uint32_t bl=lenght/4;
-  if(lenght%4) bl++;
+  uint32_t bl=length/4;
+  if(length%4) bl++;
   if(operation){
     while(bl){
       transcoder(i);
@@ -200,17 +200,17 @@ void cryptxs::buffer_transcoder(unsigned char *i){ //базовый цикл о�
 
 cryptxs::~cryptxs(){ //деструктор класса
   operation=false;
-  lenght=6;
+  length=6;
   if(pm){
     delete pm;
     pm=NULL;
   };
   memset(cpassword,0,20);
-  while(lenght){
-    lenght--;
-    if(state[lenght]){
-      delete state[lenght];
-      state[lenght]=NULL;
+  while(length){
+    length--;
+    if(state[length]){
+      delete state[length];
+      state[length]=NULL;
     };
   };
   if(slag){

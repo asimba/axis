@@ -20,7 +20,7 @@
       alfg *state[6];
       unsigned char cpassword[20];
       permutation *pm;
-      uint32_t lenght;
+      uint32_t length;
       bool operation;
       inline void noise(unsigned char *i);
       inline void denoise(unsigned char *i);
@@ -30,8 +30,8 @@
       alfl *slag;
       uint32_t *cycles;
       void set(char *p, bool decode);
-      void operator << (uint32_t buffer_lenght){
-        if(slag) lenght=buffer_lenght;
+      void operator << (uint32_t buffer_length){
+        if(slag) length=buffer_length;
       };
       void operator << (unsigned char *i){
         if(slag) buffer_transcoder(i);

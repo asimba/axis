@@ -61,7 +61,7 @@ inline void ecc::decode(unsigned char *i, unsigned char *o){ //элемента�
   };
 }
 
-uint32_t ecc::buffer_transcoder(unsigned char *iobuffer, uint32_t lenght){ //функция обработки буфера
+uint32_t ecc::buffer_transcoder(unsigned char *iobuffer, uint32_t length){ //функция обработки буфера
   uint32_t bc;
   uint32_t c;
   uint32_t i=0;
@@ -69,14 +69,14 @@ uint32_t ecc::buffer_transcoder(unsigned char *iobuffer, uint32_t lenght){ //ф�
   unsigned char ib[4];
   unsigned char ob[4];
   if(op_code){
-    if((!(lenght/4))&&(lenght%4)){
+    if((!(length/4))&&(length%4)){
       harderr++;
-      return lenght;
+      return length;
     };
-    bc=(lenght>>3);
-    lenght=(bc<<2)+(lenght&0x00000003);
+    bc=(length>>3);
+    length=(bc<<2)+(length&0x00000003);
     while(i<bc){
-      c=i+lenght;
+      c=i+length;
       for(j=0; j<4; j++){
         ib[j]=iobuffer[i+j*bc];
         ob[j]=iobuffer[c+j*bc];
@@ -95,11 +95,11 @@ uint32_t ecc::buffer_transcoder(unsigned char *iobuffer, uint32_t lenght){ //ф�
       };
       i++;
     };
-    c=(lenght&0x00000003);
+    c=(length&0x00000003);
     if(c){
       for(j=0; j<4; j++) ib[j]=0;
-      i=lenght-c;
-      bc=i+lenght;
+      i=length-c;
+      bc=i+length;
       for(j=0; j<4; j++) ob[j]=iobuffer[bc+j];
       for(j=0; j<c; j++) ib[j]=iobuffer[i+j];
       decode(ib,ob);
@@ -113,27 +113,27 @@ uint32_t ecc::buffer_transcoder(unsigned char *iobuffer, uint32_t lenght){ //ф�
                    break;
       };
     };
-    bc=lenght;
+    bc=length;
   }
   else{
-    bc=(lenght>>2);
+    bc=(length>>2);
     while(i<bc){
       for(j=0; j<4; j++) ib[j]=iobuffer[i+j*bc];
       encode(ib,ob);
-      c=i+lenght;
+      c=i+length;
       for(j=0; j<4; j++) iobuffer[c+j*bc]=ob[j];
       i++;
     };
-    c=(lenght&0x00000003);
-    i=lenght-c;
+    c=(length&0x00000003);
+    i=length-c;
     if(c){
       for(j=0; j<4; j++) ib[j]=0;
       for(j=0; j<c; j++) ib[j]=iobuffer[i+j];
       encode(ib,ob);
-      i+=lenght;
+      i+=length;
       for(j=0; j<4; j++) iobuffer[i+j]=ob[j];
     }
-    else i+=lenght;
+    else i+=length;
     bc=i+(c?4:0);
   };
   return bc;

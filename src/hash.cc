@@ -19,8 +19,8 @@ void scxh::reset(bool use_hash_tbl){
 #endif
     }
     else (*state)=L_LAG*L_LAG;
-    lenght=5;
-    while(lenght--) hash[lenght]=0;
+    length=5;
+    while(length--) hash[length]=0;
     init=true;
   };
 }
@@ -71,21 +71,21 @@ void scxh::clear(){
 }
 
 scxh::~scxh(){ //деструктор класса (обнуление и высвобождение памяти)
-  lenght=0;
+  length=0;
   init=true;
   memset(hash,0,5*sizeof(uint32_t));
   state=NULL;
 }
 
 void scxh::scxh_update(unsigned char *i){ //обработка блока информации
-  if(lenght){
+  if(length){
     uint32_t bl, l;
     if(state){
-      bl=lenght/4;
-      l=lenght%4;
+      bl=length/4;
+      l=length%4;
       unsigned char c[]={0,0,0};
       uint8_t t=0;
-      if(l) for(l=bl*4; l<lenght; l++) c[t++]=i[l];
+      if(l) for(l=bl*4; l<length; l++) c[t++]=i[l];
       if(init){
         (*state)<<i[0];
         init=false;
@@ -116,7 +116,7 @@ void scxh::scxh_update(unsigned char *i){ //обработка блока инф
         hash[4]^=((*state)++);
         hash[4]+=hash[2];
       };
-      lenght=0;
+      length=0;
     };
   };
 }

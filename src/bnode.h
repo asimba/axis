@@ -22,7 +22,7 @@
   class bnode{
     private:
       char *content;
-      uint32_t lenght;
+      uint32_t length;
       off64_t data_size;
       char *position;
       void fcontent(const char *base_name);
@@ -33,7 +33,7 @@
       void addnode(const char *base_name);
       bool get_next(struct infonode &in);
       char *get_content();
-      uint32_t get_lenght();
+      uint32_t get_length();
       off64_t get_data_size();
       void load_content(uint32_t l, char *b);
       bnode();
