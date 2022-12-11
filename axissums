@@ -1,8 +1,8 @@
 5e2a6182f5455d95869a16753c56079eef9775e1 ./LICENSE
 09112e52227f0182675725568c005221164cd671 ./README.md
 547331b6beccf7bd63231084b8fa85db7202da80 ./makefile
-83840af4ce9f4bba4d0b94e44de0b0163efa1c72 ./bin/axis
-bce8ca9bcf46fbc26dabf6e3cfcff93037a5a557 ./bin/axis.exe
+7142aa4b53448a7875b161959e2e37a214aaff9c ./bin/axis
+f4687bbee47d73ff90b46af47d5d1cb7405cdc89 ./bin/axis.exe
 ffd10c35dad3e3cedac3969b7c77153084e12e51 ./bin/axisgui.py
 20bbf8559dfdc191399c4b80a07ab28fe85d1d9f ./src/archive.cc
 681b5f03eff93283c4a3a2bef493bb61961d3a8e ./src/archive.h
@@ -16,7 +16,7 @@ c401f18709e9ba1200f7be24e722197147735369 ./src/axislogo.svg
 ac28702e2fc0df8d7adee5d33a75d81b32fbfbd4 ./src/axisum.h
 99e08b3d63bc04321940cb164ea851530a4dbd03 ./src/bnode.cc
 66872236291e1a931acbd9adeeb496d18c61ddcb ./src/bnode.h
-86fd3f5aeec397212aba50d121cbff645c293567 ./src/build.inc
+2330aa5db21e713d6442ac1dd2f0ef3dca71e96a ./src/build.inc
 4d94b873542e3d87b318cf24f2c15dd226b2434d ./src/buildinc
 9f1cd4c3b54f4c7bfd6c350067a99977a86a7d32 ./src/canonicalize.cc
 6d06c63018cf30c1ca1b78d6a33dde98aedfe388 ./src/canonicalize.h
@@ -32,7 +32,7 @@ e0d05e5f74d69e0c82a438a974abe6b0f55359ef ./src/ecc.h
 e895a8fbfe7409db759af08bd0b27982248db228 ./src/etc.cc
 6fd7a6b90f1938864a9680a80cbf05d9e34f27b6 ./src/etc.h
 0d339e274a038b22f251a011cd435d41c2562bc3 ./src/filters.cc
-39a572ae27fa439efd6ff7deabfe9c94d2cbf084 ./src/filters.h
+a9fe0f0d082910f8400274dd1be363fd5a88ae62 ./src/filters.h
 605ea15cb6a70da5f5309685b9997a7574b94487 ./src/fnode.cc
 c9467604f017f5ff070ebf245e6cdc2dda776bde ./src/fnode.h
 6599f170a493b969043f1f5a2043ed0e5325e56c ./src/ftree.cc
@@ -65,5 +65,5 @@ e8408d7808d4535e25ee9d55ac1e99ae350fdcb3 ./src/timebits.h
 ef3526c8993eb84cb42bbd30b4b4d897aa595d56 ./src/translate.py
 538872498e61b87cf08aa7265e1506648f35bde2 ./src/vars.cc
 afbd6daec11670aca86a20b675e56651cf6ec33a ./src/vars.h
-bbf181cf4b094eb98fffac4d0bd105d9ba60605a ./src/version.h
+e3e40bfa0b9587e76afbd1e46c458c2cb7cda5f1 ./src/version.h
 98376c7cc36799064633622ce69253661bd83764 ./src/version.inc

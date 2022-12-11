@@ -8,7 +8,7 @@
 #ifndef _BUFFER_SIZE
   #define _BUFFER_SIZE 0x10000
 #endif
-#define _LE_BUFFER_SIZE 65536
+#define _LE_BUFFER_SIZE 0x20000
 
   /*
     Базовый класс для обработки потока "Axis"(XS)
