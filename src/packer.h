@@ -45,6 +45,7 @@
       uint16_t offset;
       uint16_t length;
       uint16_t symbol;
+      uint16_t hs;
       uint16_t *fcs;
       uint16_t **frequency;
       int32_t icbuf;
@@ -57,7 +58,6 @@
       vocpntr *vocindx;
       filters *flt;
       template <class T,class V> void del(T& p,uint32_t s,V v);
-      inline void hash(uint16_t s);
       void wbuf(void* file, uint8_t c);
       bool rbuf(void* file, uint8_t *c);
       bool rc32_getc(void* file, uint8_t *c);
