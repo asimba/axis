@@ -29,7 +29,6 @@
   class packer{
     private:
       uint8_t *iobuf;
-      uint8_t *wpntr;
       uint8_t *cbuffer;
       uint8_t *vocbuf;
       uint8_t *lowp;
