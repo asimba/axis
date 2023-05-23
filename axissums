@@ -1,8 +1,8 @@
 5e2a6182f5455d95869a16753c56079eef9775e1 ./LICENSE
 09112e52227f0182675725568c005221164cd671 ./README.md
 547331b6beccf7bd63231084b8fa85db7202da80 ./makefile
-012e972b521104e23f542a2aee2bae64e4f50800 ./bin/axis
-363e159d2c408fae781dbcdac411063549f01179 ./bin/axis.exe
+055692b640b6f14249861588c39f94b0b00a97bc ./bin/axis
+f9f165308a43d027976279499a3deea58857789b ./bin/axis.exe
 ffd10c35dad3e3cedac3969b7c77153084e12e51 ./bin/axisgui.py
 20bbf8559dfdc191399c4b80a07ab28fe85d1d9f ./src/archive.cc
 681b5f03eff93283c4a3a2bef493bb61961d3a8e ./src/archive.h
@@ -16,7 +16,7 @@ c401f18709e9ba1200f7be24e722197147735369 ./src/axislogo.svg
 ac28702e2fc0df8d7adee5d33a75d81b32fbfbd4 ./src/axisum.h
 99e08b3d63bc04321940cb164ea851530a4dbd03 ./src/bnode.cc
 66872236291e1a931acbd9adeeb496d18c61ddcb ./src/bnode.h
-8c68ef55a14055b68016775f3df6c47793ffe326 ./src/build.inc
+bc0c5547eec397215fc966be6cdd159791384b54 ./src/build.inc
 4d94b873542e3d87b318cf24f2c15dd226b2434d ./src/buildinc
 9f1cd4c3b54f4c7bfd6c350067a99977a86a7d32 ./src/canonicalize.cc
 6d06c63018cf30c1ca1b78d6a33dde98aedfe388 ./src/canonicalize.h
@@ -51,8 +51,8 @@ e3b60e4feb6a99f12af95e078bbc8b7f603fba36 ./src/langdata.py
 c95f3e2a22128e7e83108e5e52f735d9542598c9 ./src/makefile.mk
 db1f0474200d1ff94e42a862cb8e9c637b2189dc ./src/mdirs.cc
 2abbe0769065cbc81448baca09d6d30960862e06 ./src/mdirs.h
-632b074d1dddcc5162b8e4c9bed1d7ec08d376a2 ./src/packer.cc
-e1ef1016c72be12503e29fa5f75469bbd9c2a7a7 ./src/packer.h
+42ebc63e22f86ce22ed0e4267df5b2eecd812088 ./src/packer.cc
+f9d34431c351ab30511ec43fdb7fefa2e01a15df ./src/packer.h
 56a1e17ff2d6fbd94daabf810234c253490d870b ./src/permutation.cc
 fae079803baac75cbf6154a3f536628310f7e768 ./src/permutation.h
 2b830bb5a3e0e3ac02fa904a87ff1f1290398b3c ./src/random.cc
@@ -65,5 +65,5 @@ e8408d7808d4535e25ee9d55ac1e99ae350fdcb3 ./src/timebits.h
 ef3526c8993eb84cb42bbd30b4b4d897aa595d56 ./src/translate.py
 538872498e61b87cf08aa7265e1506648f35bde2 ./src/vars.cc
 afbd6daec11670aca86a20b675e56651cf6ec33a ./src/vars.h
-468f6b7b91d6678f0098367d6bf22c9ac1438701 ./src/version.h
-98376c7cc36799062ede8c730ee92195a1f87c7c ./src/version.inc
+6ca79ea8c8b5ef383417250123fb45f296da3aa5 ./src/version.h
+98376c7c297b85d0159c670574d4e9c71027a11f ./src/version.inc

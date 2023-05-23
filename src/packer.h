@@ -44,7 +44,6 @@
       uint16_t offset;
       uint16_t length;
       uint16_t symbol;
-      uint16_t hs;
       uint16_t *fcs;
       uint16_t **frequency;
       int32_t icbuf;
@@ -53,7 +52,6 @@
       uint32_t low;
       uint32_t hlp;
       uint32_t range;
-      bool eofs;
       vocpntr *vocindx;
       filters *flt;
       template <class T,class V> void del(T& p,uint32_t s,V v);

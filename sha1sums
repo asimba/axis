@@ -1,5 +1,5 @@
-4b6cce5e925db6174d0ba604904f6f16d2a6a8d0 *./bin/axis
-047c05479b23b15af1dbf948c21c03bc18c6f653 *./bin/axis.exe
+93a5510073f53eddc9b9098d18d021808fa00c00 *./bin/axis
+1eb65fdccb947a646918cb8c5944c3d0285864c7 *./bin/axis.exe
 6d8f7d55f6243c2b43f0fb64ad22523bb271a6c8 *./bin/axisgui.py
 04a02a05b856af499c7e12a4ca54b192f6ee8b1c *./LICENSE
 f4b7439d3196b6ac2ecc57930853e8293736ce22 *./makefile
@@ -16,7 +16,7 @@ ab1f44390543c26b49b94eba1eb736b4cdc8702c *./src/axismain.cc
 4a5d5ae6faa04225a35aa5751b290570a48809fb *./src/axisum.h
 78882afd798f90d581c75347ebb9bfc1264dcd1c *./src/bnode.cc
 da07eb161d5606ad1db49cd6e027b0fb095f7f30 *./src/bnode.h
-7635d0f69168b9065a7a679b0f73f2d0eb4933f1 *./src/build.inc
+d25d719d9d57ed58e70c19c5d3b7776d87abf355 *./src/build.inc
 01d7ae4d64aac4aa3a7cb5a34e5dd008b95058f0 *./src/buildinc
 2a4ba2232e37cde6ccf4d85c0429bdb90081a687 *./src/canonicalize.cc
 d3cdb3d4423c1dc67367029ba7d6c73f3d332eee *./src/canonicalize.h
@@ -51,8 +51,8 @@ a948a84493f5dc355b678e79b9008d7094ff85c1 *./src/hash.h
 fcfe84ba2f191ef654d5cb65a99e92947f4e8ab2 *./src/makefile.mk
 c139da5ddf1c747eee44e5aafee6eb312af3e29e *./src/mdirs.cc
 7e2e741f8abec81de2f5372bb36963c67365267f *./src/mdirs.h
-dbcdc351c4159d217288f4162c854d1e0c18f8e9 *./src/packer.cc
-218423b3ee3004a7698f6a8228ae6f67f19a4dc6 *./src/packer.h
+717d88ad967fa4673dd1557f9f07fb01eeef64d8 *./src/packer.cc
+37837847d5e9634d542b8fc2f059b67176eb30f1 *./src/packer.h
 59f93ff4a50024bd34349b0c98d5b8f7fc8470e6 *./src/permutation.cc
 69db3be840f0ce074cfd51731553ad680a8d14b7 *./src/permutation.h
 d14f84cf902170ff48510ebaa4a7365b2525f8eb *./src/random.cc
@@ -65,5 +65,5 @@ d14f84cf902170ff48510ebaa4a7365b2525f8eb *./src/random.cc
 55e7bb198358c358942c553bca178ad1658aa0d5 *./src/translate.py
 46025207b186c68b74526686560ed72decb7d64e *./src/vars.cc
 b496214fa6b932662b09dd09ab5d794359886ecd *./src/vars.h
-76f5e44bdaf3f7741b267862e3592bad54d2b2ee *./src/version.h
-6944736b02fac421d2c2a678cef9fc9c435fddb0 *./src/version.inc
+2675db15cc311a2751304c2a67a2fadf5b20c378 *./src/version.h
+c9bf05f1df833a5a1aa9654dc6c08ae5a2fcab16 *./src/version.inc
