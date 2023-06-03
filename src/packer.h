@@ -30,11 +30,11 @@
     private:
       uint8_t *iobuf;
       uint8_t *cbuffer;
+      uint8_t *cntxs;
       uint8_t *vocbuf;
       uint8_t *lowp;
       uint8_t *hlpp;
       uint8_t *cpos;
-      uint8_t cstate;
       uint8_t rle_flag;
       uint16_t *vocarea;
       uint16_t *hashes;
@@ -57,10 +57,11 @@
       template <class T,class V> void del(T& p,uint32_t s,V v);
       void wbuf(void* file, uint8_t c);
       bool rbuf(void* file, uint8_t *c);
-      bool rc32_getc(void* file, uint8_t *c);
-      bool rc32_putc(void* file, uint8_t c);
+      bool rc32_getc(void* file, uint8_t *c, uint8_t cntx);
+      bool rc32_putc(void* file, uint8_t c, uint8_t cntx);
     public:
       uint8_t flags;
+      uint8_t cnt;
       bool finalize;
       void init();
       void set_filters(filters *f);
