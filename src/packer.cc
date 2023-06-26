@@ -99,15 +99,16 @@ bool packer::rbuf(void *file, uint8_t *c){
 #define rc32_shift() low<<=8;if((uint32_t)((range<<=8)+low)<low) range=~low;
 
 bool packer::rc32_getc(void *file, uint8_t *c, uint8_t cntx){
-  uint16_t *f=frequency[cntx],fc=fcs[cntx];
-  uint32_t s=0,i;
   while(hlp<low||(low^(low+range))<0x1000000||range<0x10000){
     hlp<<=8;
     if(rbuf(file,hlpp)) return true;
     if(!rpos) return false;
     rc32_shift();
   };
+  uint16_t *f=frequency[cntx],fc=fcs[cntx];
+  uint32_t i;
   if((i=(hlp-low)/(range/=fc))>=fc) return true;
+  register uint32_t s=0;
   while((s+=*f)<=i) f++;
   low+=(s-*f)*range;
   *c=(uint8_t)(f-frequency[cntx]);
@@ -115,14 +116,18 @@ bool packer::rc32_getc(void *file, uint8_t *c, uint8_t cntx){
 }
 
 bool packer::rc32_putc(void *file, uint8_t c, uint8_t cntx){
-  uint16_t *f=frequency[cntx],fc=fcs[cntx];
-  uint32_t s=0,i=c;
   while((low^(low+range))<0x1000000||range<0x10000){
     if(!(wbuf(file,*lowp),wpos)) return true;
     rc32_shift();
   };
-  while(i--) s+=*f++;
-  low+=s*(range/=fc);
+  uint16_t *f=frequency[cntx],fc=fcs[cntx];
+  register uint64_t s=0;
+  while(c>3) s+=*(uint64_t *)f,f+=4,c-=4;
+  while(c>1) s+=*(uint32_t *)f,f+=2,c-=2;
+  while(c--) s+=*f++;
+  s+=s>>32;
+  s+=s>>16;
+  low+=((uint16_t)s)*(range/=fc);
   rc32_rescale();
 }
 
