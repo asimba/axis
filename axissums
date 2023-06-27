@@ -1,8 +1,8 @@
 5e2a6182f5455d95869a16753c56079eef9775e1 ./LICENSE
 09112e52227f0182675725568c005221164cd671 ./README.md
 547331b6beccf7bd63231084b8fa85db7202da80 ./makefile
-2766af9a695d1cda4f00a3c5245d8e41e8be6a4b ./bin/axis
-e3bffc508c9fd151cb04bab780621a5d270e7bfe ./bin/axis.exe
+e93a89d6a591bb21e33480aabd4c138c270623b4 ./bin/axis
+6d65883f9a06b0fb0ec75df5c06cb71f60a3f8d0 ./bin/axis.exe
 ffd10c35dad3e3cedac3969b7c77153084e12e51 ./bin/axisgui.py
 20bbf8559dfdc191399c4b80a07ab28fe85d1d9f ./src/archive.cc
 681b5f03eff93283c4a3a2bef493bb61961d3a8e ./src/archive.h
@@ -16,7 +16,7 @@ c401f18709e9ba1200f7be24e722197147735369 ./src/axislogo.svg
 ac28702e2fc0df8d7adee5d33a75d81b32fbfbd4 ./src/axisum.h
 99e08b3d63bc04321940cb164ea851530a4dbd03 ./src/bnode.cc
 66872236291e1a931acbd9adeeb496d18c61ddcb ./src/bnode.h
-440e0ad1a3a5761383d98f9e4b0f74800d4b2162 ./src/build.inc
+ca93ff38c85948e962f68113f63b6cdab6c55f97 ./src/build.inc
 4d94b873542e3d87b318cf24f2c15dd226b2434d ./src/buildinc
 9f1cd4c3b54f4c7bfd6c350067a99977a86a7d32 ./src/canonicalize.cc
 6d06c63018cf30c1ca1b78d6a33dde98aedfe388 ./src/canonicalize.h
@@ -51,7 +51,7 @@ e3b60e4feb6a99f12af95e078bbc8b7f603fba36 ./src/langdata.py
 c95f3e2a22128e7e83108e5e52f735d9542598c9 ./src/makefile.mk
 db1f0474200d1ff94e42a862cb8e9c637b2189dc ./src/mdirs.cc
 2abbe0769065cbc81448baca09d6d30960862e06 ./src/mdirs.h
-d228435091751b36527cf6e74094cb323d4ddc03 ./src/packer.cc
+dc1ef8036d799cb6cbe78e51512f00bfa92c10d0 ./src/packer.cc
 bdaa58caee968f5cf0ceb06624a3e6dcf0e94a66 ./src/packer.h
 56a1e17ff2d6fbd94daabf810234c253490d870b ./src/permutation.cc
 fae079803baac75cbf6154a3f536628310f7e768 ./src/permutation.h
@@ -65,5 +65,5 @@ e8408d7808d4535e25ee9d55ac1e99ae350fdcb3 ./src/timebits.h
 ef3526c8993eb84cb42bbd30b4b4d897aa595d56 ./src/translate.py
 538872498e61b87cf08aa7265e1506648f35bde2 ./src/vars.cc
 afbd6daec11670aca86a20b675e56651cf6ec33a ./src/vars.h
-04e86fde014c236d9b1884b5705cdbe5c563a327 ./src/version.h
-98376c7c297b85d02d1b5f32325bbd51ea9074e4 ./src/version.inc
+ccea39603e61a9ac9acef38de5c06536a9502696 ./src/version.h
+98376c7c297b85d0a02c823e5577c0354b435b8a ./src/version.inc
