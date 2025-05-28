@@ -36,7 +36,6 @@
       uint8_t *hlpp;
       uint8_t *cpos;
       uint8_t rle_flag;
-      uint8_t scntx;
       uint16_t *vocarea;
       uint16_t *hashes;
       uint16_t buf_size;
